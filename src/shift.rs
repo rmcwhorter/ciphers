@@ -12,6 +12,16 @@ pub fn decrypt(message: &Vec<u8>, key: u8) -> Vec<u8> {
     message.into_iter().map(|x| (*x + 26 - key) % 26).collect()
 }
 
+pub fn breaker(ciphertext: &Vec<u8>) {
+    let mut test_texts: Vec<Vec<u8>> = Vec::with_capacity(26);
+    for key in 0..26 {
+        test_texts.push(decrypt(ciphertext, key));
+    }
+    for (k,t) in test_texts.iter().enumerate() {
+        println!("{}: {:?}", k,t);
+    }
+}
+
 pub fn test(length: usize) {
     let mut rng = thread_rng();
     let char_vec = crate::util::rand_u8_mod26(length);
